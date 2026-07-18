@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/smart_mall?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1813745788
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.smartmall.entity
+
+  configuration:
+    map-underscore-to-camel-case: true
+
+    # 开发环境开启 SQL 日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
