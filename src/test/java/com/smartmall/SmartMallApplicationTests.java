@@ -8,6 +8,7 @@ class SmartMallApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("SmartMall启动成功");
     }
 
 }
