@@ -22,11 +22,19 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Override
     @Transactional
     public Product addProduct(ProductAddDTO dto) {
+        //准备接收数据
         Product product = new Product();
+        //核心搬运动作：把 dto 里的字段值，按"字段名一致"的规则，逐个拷贝到 product 里。
+        //内部原理是 Java 反射——遍历 dto 的所有 getter 方法（如 getName()），去 product 里找对应的 setter 方法（如 setName()）调用赋值
         BeanUtils.copyProperties(dto, product);
+        //给新建的对象初始化一些数据
         product.setSales(0);
         product.setStatus(1);
+
+        //与 mapper 和数据库关联
+//        ServiceImpl<ProductMapper, Product>已经和 mapper 关联了
         save(product);
+        //返回给 controller
         return product;
     }
 

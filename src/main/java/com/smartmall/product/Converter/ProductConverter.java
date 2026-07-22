@@ -11,6 +11,7 @@ public class ProductConverter {
 
     public ProductVO toVO(Product product) {
 
+        //空值保护
         if(product == null){
             return null;
         }

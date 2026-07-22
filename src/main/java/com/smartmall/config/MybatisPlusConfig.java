@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
         "com.smartmall.product.Mapper",
         "com.smartmall.category.Mapper",
         "com.smartmall.inventory.Mapper",
-        "com.smartmall.cart.mapper"
+        "com.smartmall.cart.mapper",
+        "com.smartmall.order.mapper"
 })
 public class MybatisPlusConfig {
 

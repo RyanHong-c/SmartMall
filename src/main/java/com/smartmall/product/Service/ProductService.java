@@ -8,6 +8,7 @@ import com.smartmall.product.Entity.Product;
 
 public interface ProductService extends IService<Product> {
 
+    //链接 controller 和 impl
     Product addProduct(ProductAddDTO dto);
 
     Product updateProduct(Long id, ProductUpdateDTO dto);
