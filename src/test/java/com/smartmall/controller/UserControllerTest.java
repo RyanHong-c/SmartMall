@@ -1,9 +1,9 @@
 package com.smartmall.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.smartmall.dto.PasswordUpdateDTO;
-import com.smartmall.dto.UserRegisterDTO;
-import com.smartmall.dto.UserUpdateDTO;
+import com.smartmall.user.DTO.PasswordUpdateDTO;
+import com.smartmall.user.DTO.UserRegisterDTO;
+import com.smartmall.user.DTO.UserUpdateDTO;
 
 import org.junit.jupiter.api.Test;
 

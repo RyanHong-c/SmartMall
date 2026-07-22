@@ -18,7 +18,7 @@ public enum ResultCode {
 
     NOT_FOUND(404, "资源不存在"),
 
-    PRODUCT_NOT_EXIST(2001, "商品不存在"),
+
     // 用户模块 1001-1099
 
     // =====================
@@ -26,10 +26,8 @@ public enum ResultCode {
 // =====================
 
 
-    USER_NOT_EXIST(
-            1001,
-            "用户不存在"
-    ),
+    USER_NOT_EXIST(1001, "用户不存在"),
+
     USER_PASSWORD_ERROR(
             1002,
             "密码错误"
@@ -53,6 +51,21 @@ public enum ResultCode {
     USER_OLD_PASSWORD_ERROR(
             1007,
             "原密码错误"
+    ),
+    PRODUCT_NOT_EXIST(2001, "商品不存在"),
+
+    CATEGORY_NOT_EXIST(2002,"分类不存在"),
+
+    PRODUCT_STOCK_NOT_ENOUGH(2003,"商品库存不足"),
+
+    INVENTORY_NOT_EXIST(
+        3001,
+                "库存不存在"
+    ),
+
+    INVENTORY_NOT_ENOUGH(
+        3002,
+                "库存不足"
     );
 
 
