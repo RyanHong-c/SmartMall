@@ -5,10 +5,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @MapperScan({
-        "com.smartmall.user.Mapper",
-        "com.smartmall.product.Mapper",
-        "com.smartmall.category.Mapper",
-        "com.smartmall.inventory.Mapper",
+        "com.smartmall.user.mapper",
+        "com.smartmall.product.mapper",
+        "com.smartmall.category.mapper",
+        "com.smartmall.inventory.mapper",
         "com.smartmall.cart.mapper",
         "com.smartmall.order.mapper"
 })
