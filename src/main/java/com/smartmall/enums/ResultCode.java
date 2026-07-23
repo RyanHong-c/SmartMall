@@ -18,10 +18,16 @@ public enum ResultCode {
 
     NOT_FOUND(404, "资源不存在"),
 
+//1000 用户(User)
+//2000 商品(Product)
+//3000 分类(Category)
+//4000 库存(Inventory)
+//5000 购物车(Cart)
+//6000 订单(Order)
+//7000 支付(Payment)
 
-    // 用户模块 1001-1099
 
-    // =====================
+// =====================
 // 用户模块 1000-1099
 // =====================
 
@@ -52,6 +58,10 @@ public enum ResultCode {
             1007,
             "原密码错误"
     ),
+// =====================
+// 商品模块 2000-2099
+// =====================
+
     PRODUCT_NOT_EXIST(2001, "商品不存在"),
 
     CATEGORY_NOT_EXIST(2002,"分类不存在"),
@@ -66,7 +76,13 @@ public enum ResultCode {
     INVENTORY_NOT_ENOUGH(
         3002,
                 "库存不足"
-    );
+    ),
+    // Order
+    ORDER_NOT_EXIST(6001, "订单不存在"),
+    ORDER_STATUS_ERROR(6002, "订单状态异常"),
+    ORDER_CREATE_FAILED(6003, "订单创建失败"),
+    ORDER_CANCEL_FAILED(6004, "订单取消失败"),
+    ORDER_DETAIL_NOT_EXIST(6005, "订单详情不存在");
 
 
     private final Integer code;

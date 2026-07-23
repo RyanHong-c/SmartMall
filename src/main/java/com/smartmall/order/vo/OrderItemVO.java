@@ -7,8 +7,6 @@ import java.math.BigDecimal;
 @Data
 public class OrderItemVO {
 
-    private Long id;
-
     /**
      * 商品ID
      */
@@ -20,7 +18,7 @@ public class OrderItemVO {
     private String productName;
 
     /**
-     * 商品价格
+     * 商品单价
      */
     private BigDecimal price;
 
@@ -28,5 +26,10 @@ public class OrderItemVO {
      * 商品数量
      */
     private Integer quantity;
+
+    /**
+     * 小计金额
+     */
+    private BigDecimal subtotal;
 
 }

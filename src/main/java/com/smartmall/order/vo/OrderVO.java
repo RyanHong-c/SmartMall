@@ -29,10 +29,18 @@ public class OrderVO {
     private BigDecimal totalAmount;
 
     /**
-     * 订单状态
+     * 状态
      */
     private Integer status;
 
+    /**
+     * 状态名称
+     */
+    private String statusName;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
 }

@@ -34,10 +34,23 @@ public class OrderDetailVO {
      */
     private Integer status;
 
+    /**
+     * 状态名称
+     */
+    private String statusName;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
     /**
-     * 商品明细
+     * 更新时间
+     */
+    private LocalDateTime updateTime;
+
+    /**
+     * 商品列表
      */
     private List<OrderItemVO> items;
 

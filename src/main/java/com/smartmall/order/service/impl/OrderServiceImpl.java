@@ -1,156 +1,128 @@
 package com.smartmall.order.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
-import com.smartmall.order.converter.OrderConverter;
+import com.smartmall.enums.OrderStatus;
+import com.smartmall.enums.ResultCode;
+import com.smartmall.exception.BusinessException;
 import com.smartmall.order.dto.OrderCreateDTO;
+import com.smartmall.order.dto.OrderItemCreateDTO;
 import com.smartmall.order.dto.OrderQueryDTO;
 import com.smartmall.order.dto.OrderStatusDTO;
 import com.smartmall.order.entity.Order;
 import com.smartmall.order.entity.OrderItem;
 import com.smartmall.order.mapper.OrderMapper;
-import com.smartmall.order.mapper.OrderItemMapper;
+import com.smartmall.order.service.OrderItemService;
 import com.smartmall.order.service.OrderService;
-import com.smartmall.order.vo.OrderDetailVO;
-import com.smartmall.order.vo.OrderVO;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl
-        extends ServiceImpl<OrderMapper, Order>
-        implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
-
-    private final OrderItemMapper orderItemMapper;
-
-    private final OrderConverter orderConverter;
-
+    private final OrderItemService orderItemService;
 
     @Override
     @Transactional
-    public Order createOrder(
-            OrderCreateDTO dto
-    ){
+    public Order create(OrderCreateDTO dto) {
 
         Order order = new Order();
+        order.setOrderNo(UUID.randomUUID().toString().replace("-", ""));
+        order.setUserId(dto.getUserId());
+        order.setStatus(OrderStatus.PENDING.getCode());
 
-        order.setOrderNo(
-                "SM" + UUID.randomUUID()
-                        .toString()
-                        .replace("-", "")
-        );
+        BigDecimal totalAmount = BigDecimal.ZERO;
 
+        for (OrderItemCreateDTO item : dto.getItems()) {
+            totalAmount = totalAmount.add(item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+        }
 
-        order.setUserId(
-                dto.getUserId()
-        );
-
-
-        order.setStatus(0);
-
-
-        order.setTotalAmount(
-                java.math.BigDecimal.ZERO
-        );
-
+        order.setTotalAmount(totalAmount);
 
         save(order);
 
+        for (OrderItemCreateDTO item : dto.getItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrderId(order.getId());
+            orderItem.setProductId(item.getProductId());
+            orderItem.setProductName(item.getProductName());
+            orderItem.setPrice(item.getPrice());
+            orderItem.setQuantity(item.getQuantity());
+            orderItemService.save(orderItem);
+        }
 
         return order;
     }
 
-
-
     @Override
-    public List<OrderVO> listOrder(
-            OrderQueryDTO dto
-    ){
+    public List<Order> list(OrderQueryDTO dto) {
 
-        List<Order> list =
-                lambdaQuery()
-                        .eq(
-                                dto.getUserId()!=null,
-                                Order::getUserId,
-                                dto.getUserId()
-                        )
-                        .eq(
-                                dto.getStatus()!=null,
-                                Order::getStatus,
-                                dto.getStatus()
-                        )
-                        .list();
+        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
 
+        wrapper.eq(dto.getUserId() != null, Order::getUserId, dto.getUserId())
+                .eq(dto.getStatus() != null, Order::getStatus, dto.getStatus())
+                .orderByDesc(Order::getCreateTime);
 
-        return list.stream()
-                .map(
-                        orderConverter::toVO
-                )
-                .collect(
-                        Collectors.toList()
-                );
+        return list(wrapper);
     }
 
-
-
     @Override
-    public OrderDetailVO detail(
-            Long id
-    ){
+    public Order getOrderById(Long id) {
 
-        return null;
+        Order order = getById(id);
 
+        if (order == null) {
+            throw new BusinessException(ResultCode.ORDER_NOT_EXIST);
+        }
+
+        return order;
     }
-
-
 
     @Override
     @Transactional
-    public void updateStatus(
-            Long id,
-            OrderStatusDTO dto
-    ){
+    public Order updateStatus(Long id, OrderStatusDTO dto) {
 
-        Order order =
-                getById(id);
-
-
-        order.setStatus(
-                dto.getStatus()
-        );
-
-
+        Order order = getOrderById(id);
+        order.setStatus(dto.getStatus());
         updateById(order);
 
+        return order;
     }
-
-
 
     @Override
     @Transactional
-    public void cancel(
-            Long id
-    ){
+    public void cancel(Long id) {
 
-        Order order =
-                getById(id);
-
-
-        order.setStatus(4);
-
-
+        Order order = getOrderById(id);
+        order.setStatus(OrderStatus.CANCELLED.getCode());
         updateById(order);
+    }
 
+    @Override
+    @Transactional
+    public void delete(Long id) {
+
+        getOrderById(id);
+
+        orderItemService.removeByOrderId(id);
+        removeById(id);
+    }
+
+    @Override
+    public Long count(OrderQueryDTO dto) {
+
+        LambdaQueryWrapper<Order> wrapper = new LambdaQueryWrapper<>();
+
+        wrapper.eq(dto.getUserId() != null, Order::getUserId, dto.getUserId())
+                .eq(dto.getStatus() != null, Order::getStatus, dto.getStatus());
+
+        return count(wrapper);
     }
 
 }
