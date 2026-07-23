@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+
+//注册，除了 id 自生成，其他都要上传
+
 @Data
 public class UserRegisterDTO {
 

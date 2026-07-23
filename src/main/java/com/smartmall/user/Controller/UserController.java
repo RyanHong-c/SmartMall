@@ -43,9 +43,15 @@ public class UserController {
     @PostMapping("/register")
     public Result<UserVO> register(@Valid @RequestBody UserRegisterDTO dto) {
         log.info("用户注册 username={}", dto.getUsername());
+
+        //user接收 service 传回的信息
         User user = userService.register(dto);
+        //user -> uservo
         UserVO vo = userConverter.toVO(user);
+        //返回统一响应格式：
         return Result.success(vo);
+
+        //==return Result.success(userConverter.toVO(userService.register(dto)));
     }
 
     /**

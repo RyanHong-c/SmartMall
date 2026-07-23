@@ -4,6 +4,8 @@ import lombok.Data;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+
+//用户名与密码不允许修改（专用通道）
 @Data
 public class UserUpdateDTO {
 

@@ -1,18 +1,14 @@
 package com.smartmall.user.Converter;
 
-
 import com.smartmall.user.Entity.User;
 import com.smartmall.user.VO.UserVO;
 import org.springframework.stereotype.Component;
-
 
 /**
  * 用户对象转换器
  */
 @Component
 public class UserConverter {
-
-
     /**
      * User 转 UserVO
      *
@@ -20,37 +16,19 @@ public class UserConverter {
      * @return 用户返回对象
      */
     public UserVO toVO(User user) {
-
-
         if (user == null) {
             return null;
         }
-
-
         UserVO vo = new UserVO();
-
-
         vo.setId(user.getId());
-
         vo.setUsername(user.getUsername());
-
         vo.setNickname(user.getNickname());
-
         vo.setPhone(user.getPhone());
-
         vo.setEmail(user.getEmail());
-
         vo.setGender(user.getGender());
-
         vo.setAvatar(user.getAvatar());
-
         vo.setStatus(user.getStatus());
-
         vo.setCreateTime(user.getCreateTime());
-
-
         return vo;
     }
-
-
 }
